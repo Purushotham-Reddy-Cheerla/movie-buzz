@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MovieBuzz</string>
+    <string name="action_popular">Popular</string>
+    <string name="action_top_rated">Top Rated</string>
+    <string name="movie_poster">Movie Poster</string>
+    <string name="preview_banner">Overview</string>
+</resources>
