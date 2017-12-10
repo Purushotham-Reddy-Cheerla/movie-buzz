@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,8 +28,10 @@ public class MainActivity extends AppCompatActivity implements MovieDataFetchAsy
     private static String mPopular = "popular";
     private static String mTopRated = "top_rated";
     private static String mCategory = "Popular Movies";
+    static final String STATE_MOVIE_LIST = "movies";
     private ProgressBar pb;
     private TextView tCategory;
+    private ArrayList<Movie> mMovieList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,32 +40,31 @@ public class MainActivity extends AppCompatActivity implements MovieDataFetchAsy
         mRecyclerView = findViewById(R.id.rv_movies);
         pb = findViewById(R.id.pb_movies);
         tCategory = findViewById(R.id.category);
-        tCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!(mCategory.contains("Top"))){
-                    fetchData(mTopRated);
-                    mCategory = "Top Rated Movies";
-                }else {
-                    fetchData(mPopular);
-                    mCategory = "Popular Movies";
-                }
-            }
-        });
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 3);
         mRecyclerAdapter = new MovieRecyclerAdapter(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
-        fetchData(mPopular);
+        if (savedInstanceState != null) {
+            mMovieList = savedInstanceState.getParcelableArrayList(STATE_MOVIE_LIST);
+            showMovies();
+            loadViews(mMovieList);
+        } else {
+            fetchData(mPopular);
+        }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(STATE_MOVIE_LIST, mMovieList);
+        super.onSaveInstanceState(outState);
+    }
 
     private void fetchData(String filter) {
-        if(NetworkUtils.isNetworkAvailable(this)){
+        if (NetworkUtils.isNetworkAvailable(this)) {
             showProgress();
             MovieDataFetchAsync service = new MovieDataFetchAsync(this, this);
             service.execute(NetworkUtils.buildUrl(filter, 1));
-        }else{
+        } else {
             showAlertDialog("No Internet Connection! Please try again!!");
         }
     }
@@ -83,9 +85,8 @@ public class MainActivity extends AppCompatActivity implements MovieDataFetchAsy
         tCategory.setText(mCategory);
     }
 
-    private void showAlertDialog(String message){
-        (new AlertDialog.Builder(this).setTitle("Alert !!").setMessage(message).setNegativeButton("OK", new DialogInterface.OnClickListener()
-        {
+    private void showAlertDialog(String message) {
+        (new AlertDialog.Builder(this).setTitle("Alert !!").setMessage(message).setNegativeButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 finish();
