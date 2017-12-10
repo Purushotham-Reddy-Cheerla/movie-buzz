@@ -1,4 +1,4 @@
-package com.example.android.moviebuzz.WebServices;
+package com.example.android.moviebuzz.webservices;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
