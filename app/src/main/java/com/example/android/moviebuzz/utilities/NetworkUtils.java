@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 
 import com.example.android.moviebuzz.BuildConfig;
 
@@ -15,12 +14,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-import okhttp3.OkHttpClient;
-
 /**
  * Created by purushotham on 11/24/2017.
  */
 
+@SuppressWarnings("ALL")
 public final class NetworkUtils {
 
     private static final String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie/";

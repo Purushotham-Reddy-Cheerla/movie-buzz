@@ -18,35 +18,33 @@ import java.util.ArrayList;
  * Created by purus on 11/26/2017.
  */
 
+@SuppressWarnings("ALL")
 public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdapter.MovieHolder> {
 
-    private ArrayList<Movie> mMovieList;
-    private Context context;
-
-    private OnMovieClicked callBack;
-
-
+    private final ArrayList<Movie> mMovieList = new ArrayList<>();
+    private final Context mContext;
+    private final OnMovieClicked callBack;
 
 
     public interface OnMovieClicked {
         void movieClicked(Movie selectedMovie);
     }
 
-    public MovieRecyclerAdapter(OnMovieClicked handler){
+    public MovieRecyclerAdapter(Context context, OnMovieClicked handler) {
         callBack = handler;
+        mContext = context;
     }
 
 
     @Override
     public MovieHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_list_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.movie_list_item, parent, false);
         return new MovieHolder(view);
     }
 
     @Override
     public void onBindViewHolder(MovieHolder holder, int position) {
-        Picasso.with(context).load(NetworkUtils.IMAGE_URL+mMovieList.get(position).posterPath).into(holder.mPoster);
+        Picasso.with(mContext).load(NetworkUtils.IMAGE_URL + mMovieList.get(position).posterPath).into(holder.mPoster);
     }
 
     @Override
@@ -55,14 +53,12 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
     }
 
     public class MovieHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-     /*   private TextView mTitle;
-        private TextView mRelease;
-        private TextView mRating;
-        private TextView mOverView;*/
-        private ImageView mPoster;
+
+        private final ImageView mPoster;
+
         private MovieHolder(View itemView) {
             super(itemView);
-            mPoster = (ImageView) itemView.findViewById(R.id.iv_poster);
+            mPoster = itemView.findViewById(R.id.iv_poster);
             itemView.setOnClickListener(this);
         }
 
@@ -72,8 +68,9 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
         }
     }
 
-    public void setmMovieList(ArrayList<Movie> list){
-        mMovieList = list;
+    public void setMovieList(ArrayList<Movie> list) {
+        mMovieList.addAll(list);
         notifyDataSetChanged();
     }
+
 }

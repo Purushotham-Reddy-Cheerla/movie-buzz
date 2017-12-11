@@ -1,18 +1,12 @@
 package com.example.android.moviebuzz;
 
 import android.content.Intent;
-import android.support.design.widget.SwipeDismissBehavior;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.moviebuzz.model.Movie;
 import com.example.android.moviebuzz.utilities.NetworkUtils;
@@ -21,7 +15,7 @@ import com.squareup.picasso.Picasso;
 public class MovieDetailActivity extends AppCompatActivity {
     private ImageView thumbNail;
     private Movie mMovie;
-    static final String STATE_MOVIE = "movie";
+    private static final String STATE_MOVIE = "movie";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +25,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             mMovie = savedInstanceState.getParcelable(STATE_MOVIE);
             showMovieDetails(mMovie);
-        }else{
+        } else {
             getData();
         }
     }
@@ -55,13 +49,20 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     private void showMovieDetails(Movie movie) {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(movie.originalTitle);
+        ActionBar bar = getSupportActionBar();
+        if (bar != null) {
+            bar.setTitle(movie.originalTitle);
+            bar.setDisplayHomeAsUpEnabled(false);
         }
         Picasso.with(this).load(NetworkUtils.IMAGE_URL + movie.posterPath).into(thumbNail);
         ((TextView) findViewById(R.id.tv_title)).setText(movie.originalTitle);
         ((TextView) findViewById(R.id.tv_date)).setText(movie.releaseDate);
         ((RatingBar) findViewById(R.id.rb_user)).setRating((float) movie.userRating / 2);
         ((TextView) findViewById(R.id.tv_overview)).setText(movie.review);
+    }
+
+    @Override
+    public boolean shouldUpRecreateTask(Intent targetIntent) {
+        return false;
     }
 }

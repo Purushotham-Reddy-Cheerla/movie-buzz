@@ -7,13 +7,14 @@ import android.os.Parcelable;
  * Created by purus on 11/24/2017.
  */
 
+@SuppressWarnings("ALL")
 public class Movie implements Parcelable{
 
-    public String posterPath;
-    public String review;
-    public String originalTitle;
-    public double userRating;
-    public String releaseDate;
+    public final String posterPath;
+    public final String review;
+    public final String originalTitle;
+    public final double userRating;
+    public final String releaseDate;
 
     public Movie(String path, String title, String date, double rating, String overview){
         this.posterPath = path;

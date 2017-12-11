@@ -4,4 +4,11 @@
     <string name="action_top_rated">Top Rated</string>
     <string name="movie_poster">Movie Poster</string>
     <string name="preview_banner">Overview</string>
+    <string name="popular_movies">Popular Movies</string>
+    <string name="top_rated">Top Rated Movies</string>
+    <string name="popular_filter">popular</string>
+    <string name="top_rated_filter">top_rated</string>
+    <string name="no_internet">No Internet Connection! Please try again!!</string>
+    <string name="alert_title">Alert</string>
+    <string name="ok_text">OK</string>
 </resources>

@@ -18,20 +18,19 @@ import java.util.ArrayList;
  * Created by purus on 11/25/2017.
  */
 
+@SuppressWarnings("ALL")
 public class MovieDataFetchAsync extends AsyncTask<URL, Void, ArrayList<Movie>> {
 
     private ArrayList<Movie> list = new ArrayList<>();
 
-    private WebCallBack callBack;
-    @SuppressLint("StaticFieldLeak")
-    private Context mContext;
+    private final WebCallBack callBack;
 
     public interface WebCallBack {
         void onFetchingData(ArrayList<Movie> list);
     }
 
     public MovieDataFetchAsync(Context context, WebCallBack handler) {
-        mContext = context;
+        Context mContext = context;
         callBack = handler;
     }
 

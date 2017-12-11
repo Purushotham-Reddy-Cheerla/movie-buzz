@@ -73,7 +73,8 @@
                         android:layout_gravity="end"
                         android:layout_weight="1"
                         android:isIndicator="true"
-                        android:progressTint="@color/progressTint" />
+                        android:progressTint="@color/progressTint"
+                        tools:targetApi="lollipop" />
                 </LinearLayout>
 
             </LinearLayout>
